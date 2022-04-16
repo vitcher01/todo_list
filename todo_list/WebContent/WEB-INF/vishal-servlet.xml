@@ -11,6 +11,7 @@
 			   http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 <context:component-scan base-package="com.accenture.vishal.controller"/>
+<context:property-placeholder location=""/>
 
 <!-- to add support for @valid,@RequestMapping or http message
 converters or message body marshaling with @RequestBody/Responsebody -->
@@ -23,4 +24,26 @@ converters or message body marshaling with @RequestBody/Responsebody -->
 	<value>.jsp</value></property>
 	</bean>
 
+<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+<property name="driverClassName" value="${database.driver}"/>
+<property name="url" value="${database.url}"/>
+<property name="username" value="${database.user}"/>
+<property name="password" value="${database.password}"/>
+<property name="driverClassName" value="${database.driver}"/></bean>
+
+<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+	<property name="dataSource" ref="dataSource"></property>
+	<property name="annotatedClasses">
+		<list>
+			<value>com.accenture.vishal.entity.UserEntity</value>
+		</list>
+	</property>
+	<property name="hibernateProperties">
+		<props>
+			<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+			<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+			<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+		</props>
+	</property>
+</bean>
 </beans>
